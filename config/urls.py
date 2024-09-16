@@ -21,9 +21,11 @@ from django.urls import path, include
 from config import settings
 
 urlpatterns = [
+    path('', include('mail.urls', namespace='mail')),
     path('admin/', admin.site.urls),
     path('blog/', include('blog.urls', namespace='blog')),
-    path('', include('users.urls', namespace='users')),
+    path('users/', include('users.urls', namespace='users')),
+
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

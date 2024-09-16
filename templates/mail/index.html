@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load my_media %}
+{% block content %}
+
+<div class="">
+{% for i in test_var %}
+    {{ i }}
+    <div class="">
+
+    </div>
+    {{ i.message }}
+    {{ i.clients.email }}
+
+
+{% endfor %}
+</div>
+
+{% endblock %}
