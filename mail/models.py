@@ -58,13 +58,13 @@ class Attempt(models.Model):
         SUCCESS = 1, 'Удачно'
         FAILURE = 0, 'Провал'
 
-    mailing = models.ForeignKey(Mailing, on_delete=models.CASCADE, related_name='attempts', verbose_name='Рассылка')
+    mailings = models.ForeignKey(Mailing, on_delete=models.CASCADE, related_name='attempts', verbose_name='Рассылка')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='создана')
     status = models.SmallIntegerField(choices=Status.choices, verbose_name='статус')
     server_response = models.TextField(blank=True, default='', verbose_name='ответ от сервера')
 
     def __str__(self):
-        return f'{self.mailing} attempt at {self.created_at}'
+        return f'{self.mailings} attempt at {self.created_at}'
 
     class Meta:
         verbose_name = 'Попытка рассылки'

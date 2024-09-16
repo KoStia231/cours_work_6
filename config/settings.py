@@ -52,7 +52,6 @@ INSTALLED_APPS = [
 
     'users',
     'blog',
-    'django_apscheduler',
     'mail',
 ]
 

@@ -26,5 +26,5 @@ class MailingAdmin(admin.ModelAdmin):
 
 @admin.register(Attempt)
 class AttemptAdmin(admin.ModelAdmin):
-    list_display = ('id', 'mailing_id', 'created_at')
+    list_display = ('id', 'mailings_id', 'created_at')
     list_filter = ('status',)
