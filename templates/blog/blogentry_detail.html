@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load my_media %}
+{% block content %}
+
+    <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+        <h1 class="display-4">Наш блог</h1>
+        <p class="lead">Тут мы пишем интересные статьи</p>
+    </div>
+    <div class="card mb-3">
+        <img src="{{ blogentry.image|mymedia }}" class="card-img-top" alt="{{ blogentry.title }}">
+        <div class="card-body">
+            <h5 class="card-title">{{ blogentry.title }}</h5>
+            <p class="card-text">{{ blogentry.contents }}</p>
+        </div>
+        <div class="card-footer text-center">
+            <p class="card-text"><small class="text-muted">Написана: {{ blogentry.created_at }}</small></p>
+            <p class="card-text"><small class="text-muted">Просмотры: {{ blogentry.views }}</small></p>
+            <p class="lead">Автор:
+                <a href="{% url 'users:profile' blogentry.autor.pk %}">
+                    <span class="badge bg-primary">
+                        {{ blogentry.autor.first_name }}
+                    </span>
+                </a>
+            </p>
+            {% if request.user == blogentry.autor %}
+                <a href="{% url 'blog:update' blogentry.slug %}" class="btn btn-outline-primary">Редактировать
+                    статью</a>
+
+                <a href="{% url 'blog:delete' blogentry.slug %}" class="btn btn-outline-danger">Удалить статью</a>
+            {% endif %}
+        </div>
+        <div class="card-footer">
+            <a href="{% url 'blog:index' %}" class="btn btn-outline-primary">Назад к блогу</a>
+        </div>
+    </div>
+
+{% endblock %}
