@@ -6,6 +6,3 @@
 data.txt
 db.sqlite3
 .env
-/mail/migrations
-/blog/migrations
-/users/migrations
