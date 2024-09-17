@@ -28,7 +28,6 @@ def schedule_job(instance: Mailing, created: bool, **kwargs):
             replace_existing=True,
         )
 
-
         logger.info('Job %s CREATE', job_id)
     if status == 'F':
         scheduler.remove_job(job_id)
