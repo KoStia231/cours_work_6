@@ -19,7 +19,7 @@ class MailingAdmin(admin.ModelAdmin):
     list_filter = ('period', 'status')
     fieldsets = [
         ('Планирование', {'fields': ['start_date', 'period']}),
-        ('Настройки', {'fields': ['clients', 'message']}),
+        ('Настройки', {'fields': ['clients', 'message', 'autor']}),
         ('Информация', {'fields': ['status']}),
     ]
 

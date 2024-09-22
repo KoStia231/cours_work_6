@@ -43,4 +43,10 @@ python3 manage.py runserver
 >
 >password-> ***admin***
 
+> username-> ***kosta123139@gmail.com***
+>
+>password-> ***Hh14767Hh***
 
+> username-> ***kos@gmail.com***
+>
+>password-> ***Hh14767HH***

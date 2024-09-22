@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load my_media %}
+{% block content %}
+
+
+
+        <div class="card mt-5">
+            <div class="card-header text-center">
+
+                <h1 class="display-4">Клиент</h1>
+
+            </div>
+            <div class="card-body">
+            
+            <p class="lead">Имя: {{ object.name }}</p>
+            <p class="lead">Email: {{ object.email }}</p>
+            <p class="lead">Комментарий: {{ object.comment }}</p>
+            <p class="lead">Автор: {{ object.autor }}</p>
+                
+            </div>
+            <div class="card-footer">
+                <a href="{% url 'mail:client_update'  object.pk %}"
+                   class="btn btn-outline-primary">
+                    Редактировать
+                </a>
+
+                <a href="{% url 'mail:client_delete' object.pk %}"
+                   class="btn btn-outline-danger">
+                    Удалить
+                </a>
+            </div>
+
+        </div>
+
+
+
+{% endblock %}

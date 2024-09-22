@@ -15,7 +15,9 @@ class MailConfig(AppConfig):
     def ready(self):
         from castom_scheduler.scheduler import scheduler
         from castom_scheduler.receivers import delete_job, schedule_job  # noqa
+        import sys
 
-        if not scheduler.running:
-            scheduler.start()
-            log.info('Scheduler started')
+        if 'runserver' in sys.argv or 'your_desired_command' in sys.argv:
+            if not scheduler.running:
+                scheduler.start()
+                log.info('Scheduler started')

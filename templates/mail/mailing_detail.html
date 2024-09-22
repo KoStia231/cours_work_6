@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+{% load my_media %}
+{% block content %}
+
+
+
+        <div class="card mt-5">
+            <div class="card-header text-center">
+
+                <h1 class="display-4">Рассылка</h1>
+
+            </div>
+            <div class="card-body">
+                <p class="lead">Дата старта рассылки: {{ mailing.start_date }}</p>
+                <p class="lead">Сообщение: {{ mailing.message.title }}
+                    {% if mailing.autor == request.user %}
+                        <a href="{% url 'mail:message_update'  mailing.message.pk %}">
+                            <span class="badge bg-primary m-2">Редактировать</span>
+                        </a>
+                    {% endif %}
+                </p>
+                <div class="card mt-1 p-1">
+                    <div class="card-header text-center">
+                        <p class="lead">КЛИЕНТЫ</p>
+                    </div>
+
+                    {% for client in client_list %}
+                        <p class="lead">Имя: {{ client.name }}, Email: {{ client.email }}
+                            {% if client.autor == request.user %}
+                                <a href="{% url 'mail:client_update'  client.pk %}">
+                                    <span class="badge bg-primary m-2">Редактировать</span>
+                                </a>
+                            {% endif %}
+                        </p>
+                    {% endfor %}
+                </div>
+
+                <div class="card mt-1 p-1">
+                    <div class="card-header text-center">
+                        <p class="lead">ПОПЫТКИ РАСССЫЛКИ</p>
+                    </div>
+
+                    {% for attempt in attempt_list %}
+
+                        {% if attempt.status == 1 %}
+                            <p class="lead">
+                                <span class="badge bg-success m-2">статус</span>
+                                Дата: {{ attempt.created_at }}, Ответ сервера: {{ attempt.server_response }}
+                            </p>
+                        {% elif attempt.status == 0 %}
+                            <p class="lead">
+                                <span class="badge bg-danger m-2">статус</span>
+                                Дата: {{ attempt.created_at }}, Ответ сервера: {{ attempt.server_response }}
+                            </p>
+                        {% endif %}
+
+                    {% endfor %}
+                </div>
+
+
+            </div>
+            <div class="card-footer">
+                {% if mailing.autor == request.user or perms.mail.manager %}
+                    <a href="{% url 'mail:mailing_update'  object.pk %}"
+                       class="btn btn-outline-primary">
+                        Редактировать
+                    </a>
+                {% endif %}
+                {% if mailing.autor == request.user %}
+                    <a href="{% url 'mail:mailing_delete' object.pk %}"
+                       class="btn btn-outline-danger">
+                        Удалить
+                    </a>
+                {% endif %}
+            </div>
+
+        </div>
+
+
+
+{% endblock %}

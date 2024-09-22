@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% load my_media %}
+{% block content %}
+
+
+        <div class="row">
+            <div class="col-6">
+                <div class="card p-1 m-1">
+                    <div class="card-header text-center">
+                        <h1 class="display-4">Юзеры</h1>
+                    </div>
+                    <div class="card-body">
+
+                        {% for user in user_list %}
+                            <div class="card p-1 m-1">
+                                <p class="lead">Имя: {{ user.first_name }}, Email: {{ user.email }}
+                                    <a href="{% url 'users:profile_update' user.pk %}" style="color:white">
+                                        <span class="badge bg-primary m-2">отключить</span>
+                                    </a>
+                                    <a href="{% url 'users:profile' user.pk %}" style="color:white">
+                                        <span class="badge bg-primary m-2">профиль</span>
+                                    </a>
+                                </p>
+                            </div>
+                        {% endfor %}
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-6">
+                <div class="card p-1 m-1">
+                    <div class="card-header text-center">
+                        <h1 class="display-4">Рассылки</h1>
+                    </div>
+                    <div class="card-body">
+
+                        {% for mailing in mailings_list %}
+                            <div class="card p-1 m-1">
+                                <p class="lead">Автор рассылки {{ mailing.autor }}</p>
+                            
+                                <p class="lead">Статус:
+                                    {% if mailing.status == 'C' %}
+                                        <span class="badge bg-primary">создана</span>
+                                    {% elif mailing.status == 'R' %}
+                                        <span class="badge bg-success">активна</span>
+                                    {% elif mailing.status == 'F' %}
+                                        <span class="badge bg-danger">остановлена</span>
+                                    {% endif %}
+                                </p>
+                            
+                                <p class="lead">
+                                    <a href="{% url 'mail:mailing_detail' mailing.pk %}" style="color:white">
+                                        <span class="badge bg-primary m-2">подробнее</span>
+                                    </a>
+
+                                    <a href="{% url 'mail:mailing_update' mailing.pk %}" style="color:white">
+                                        <span class="badge bg-primary m-2">отключить</span>
+                                    </a>
+                                </p>
+                            </div>
+                        {% endfor %}
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+{% endblock %}

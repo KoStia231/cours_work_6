@@ -14,7 +14,13 @@
 
     {% if request.user.is_authenticated %}
         <a class="p-2 btn btn-outline-primary" href="{% url 'users:profile' request.user.pk %}">Профиль</a>
-        <a class="p-2 btn btn-outline-primary" href="{% url 'users:logout' %}">Выйти</a>
+        <a class="p-2 btn btn-outline-danger" href="{% url 'users:logout' %}">Выйти</a>
+    {% endif %}
+    {% if perms.mail.manager %}
+        <a class="p-2 btn btn-outline-primary" href="{% url 'mail:manager' %}">manager</a>
+    {% endif %}
+    {% if not request.user.is_authenticated %}
+        <a class="p-2 btn btn-outline-primary" href="{% url 'users:login' %}">Вход</a>
     {% endif %}
 
 </nav>

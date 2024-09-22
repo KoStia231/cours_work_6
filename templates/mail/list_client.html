@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load my_media %}
+{% block content %}
+
+
+
+        <div class="card mt-5">
+            <div class="card-header text-center">
+
+                <h1 class="display-4">Список клиентов</h1>
+
+            </div>
+            <div class="card-body">
+
+                {% for object in object_list %}
+                    <p class="lead">Клиент: {{ object.name }}, Email: {{ object.email }}
+                        <a href="{% url 'mail:client_update' object.pk %}" style="color:white">
+                            <span class="badge bg-primary m-2">редактировать</span>
+                        </a>
+                        <a href="{% url 'mail:client_delete' object.pk %}">
+                            <span class="badge bg-danger ">удалить</span>
+                        </a>
+                    </p>
+                {% endfor %}
+            </div>
+
+        </div>
+
+
+
+
+{% endblock %}

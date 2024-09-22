@@ -2,9 +2,11 @@ from django.db import models
 
 
 class Client(models.Model):
-    email = models.EmailField(unique=True, verbose_name='email')
+    email = models.EmailField(verbose_name='email')
     name = models.CharField(max_length=255, verbose_name='имя')
     comment = models.TextField(blank=True, default='', verbose_name='комментарий')
+
+    autor = models.ForeignKey('users.User', on_delete=models.CASCADE, verbose_name='автор')
 
     class Meta:
         verbose_name = 'Клиент'
@@ -17,6 +19,8 @@ class Client(models.Model):
 class Message(models.Model):
     title = models.CharField(max_length=255, verbose_name='тема письма')
     content = models.TextField(verbose_name='письмо')
+
+    autor = models.ForeignKey('users.User', on_delete=models.CASCADE, verbose_name='автор')
 
     class Meta:
         verbose_name = 'Сообщение'
@@ -45,9 +49,14 @@ class Mailing(models.Model):
     clients = models.ManyToManyField(Client)
     message = models.ForeignKey(Message, on_delete=models.CASCADE, related_name='mailings', verbose_name='сообщение')
 
+    autor = models.ForeignKey('users.User', on_delete=models.CASCADE, verbose_name='автор')
+
     class Meta:
         verbose_name = 'Рассылка'
         verbose_name_plural = 'Рассылки'
+        permissions = [
+            ('manager', 'Может просматривать любые рассылки и отключать рассылки')
+        ]
 
     def __str__(self):
         return f'{self.get_period_display()} рассылка {self.message.title}'

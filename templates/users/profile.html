@@ -1,7 +1,6 @@
 {% extends 'base.html' %}
-
 {% block content %}
-        <div class="container mt-5">
+    <div class="container mt-5">
         <div class="row">
             <div class="col-md-4">
                 <!-- Поля профиля пользователя -->
@@ -19,6 +18,95 @@
                     <p><strong>Email:</strong> Доступно только владельцу профиля</p>
                 {% endif %}
             </div>
+
+            <div class="card mt-5">
+                <div class="card-header text-center">
+                    {% if not user == request.user %}
+                        <h1 class="display-4">Список рассылок пользователя</h1>
+                    {% endif %}
+
+                    {% if user == request.user %}
+                        <h1 class="display-4">Мои рассылки</h1>
+
+                        <a class="p-2 btn btn-outline-primary" href="{% url 'mail:mailing_create' %}">
+                            Создать рассылку</a>
+
+                        <a class="p-2 btn btn-outline-primary" href="{% url 'mail:client_create' %}">
+                            Создать клиента</a>
+
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown"
+                                    aria-expanded="false">
+                                Клиенты
+                            </button>
+                            <ul class="dropdown-menu">
+                                {% for client in client_list %}
+                                    <li><a class="dropdown-item"
+                                           href="{% url 'mail:client_detail' client.pk %}">{{ client.name }}</a>
+                                    </li>
+                                {% endfor %}
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li><a class="dropdown-item" href="{% url 'mail:client_list' %}">Все клиенты</a></li>
+                            </ul>
+                        </div>
+
+                        <a class="p-2 btn btn-outline-primary" href="{% url 'mail:message_create' %}">
+                            Создать сообщение</a>
+
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown"
+                                    aria-expanded="false">
+                                Сообщения
+                            </button>
+                            <ul class="dropdown-menu">
+                                {% for message in message_list %}
+                                    <li>
+                                        <a class="dropdown-item"
+                                           href="{% url 'mail:message_detail' message.pk %}">{{ message.title }}</a>
+                                    </li>
+                                {% endfor %}
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li><a class="dropdown-item" href="{% url 'mail:message_list' %}">Все сообщения</a></li>
+                            </ul>
+                        </div>
+
+                    {% endif %}
+                </div>
+                <div class="card-body">
+
+                    {% for mailing in mailing_list %}
+                        <p class="lead">Рассылка {{ mailing.start_date }}
+                            {% if mailing.status == 'C' %}
+                                <span class="badge bg-primary">создана</span>
+                            {% elif mailing.status == 'R' %}
+                                <span class="badge bg-success">активна</span>
+                            {% elif mailing.status == 'F' %}
+                                <span class="badge bg-danger">остановлена</span>
+                            {% endif %}
+
+                            {% if user == request.user %}
+                                <a href="{% url 'mail:mailing_detail' mailing.pk %}" style="color:white">
+                                    <span class="badge bg-primary m-2">подробнее</span>
+                                </a>
+
+                                <a href="{% url 'mail:mailing_update' mailing.pk %}" style="color:white">
+                                    <span class="badge bg-primary m-2">редактировать</span>
+                                </a>
+
+                                <a href="{% url 'mail:mailing_delete' mailing.pk %}">
+                                    <span class="badge bg-danger ">удалить</span>
+                                </a>
+                            {% endif %}
+
+                        </p>
+                    {% endfor %}
+                </div>
+            </div>
         </div>
-        </div>
+    </div>
+
 {% endblock %}

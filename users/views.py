@@ -10,8 +10,9 @@ from django.urls import reverse_lazy, reverse
 from django.views.generic import CreateView, UpdateView, DetailView
 
 from config.settings import EMAIL_HOST_USER
+from mail.models import Mailing, Client, Message
 from users.forms import UserLoginForm
-from users.forms import UserRegisterForm, UserProfileUpdateForm
+from users.forms import UserRegisterForm, UserProfileUpdateForm, UserProfileUpdateFormManager
 from users.models import User
 
 
@@ -105,6 +106,13 @@ class UserProfileUpdateView(MyLoginRequiredMixin, UpdateView):
         user.save()  # сохранить изменения
         return super().form_valid(form)
 
+    def get_form_class(self):
+        user = self.request.user
+        if user == self.object:
+            return UserProfileUpdateForm
+        if user.has_perm('users.manager'):
+            return UserProfileUpdateFormManager
+
 
 class UserProfileView(DetailView):
     """Страничка просмотра профиля пользователя"""
@@ -112,5 +120,15 @@ class UserProfileView(DetailView):
     template_name = 'users/profile.html'
 
     def get_context_data(self, **kwargs):
+        """сложная хрень но придумал только так увы"""
         context = super().get_context_data(**kwargs)
+        user = self.request.user
+        mailing_list = Mailing.objects.filter(autor=user)
+        client_list = Client.objects.filter(autor=user).order_by('-id')[0:10]
+        message_list = Message.objects.filter(autor=user).order_by('-id')[0:10]
+
+        context['client_list'] = client_list
+        context['message_list'] = message_list
+        context['mailing_list'] = mailing_list
+
         return context

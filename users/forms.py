@@ -43,3 +43,10 @@ class UserProfileUpdateForm(CustomFormMixin, UserChangeForm):
         """Штука скрывает стандартное поле пароля"""
         super().__init__(*args, **kwargs)
         self.fields['password'].widget = forms.HiddenInput()
+
+
+class UserProfileUpdateFormManager(UserProfileUpdateForm):
+    class Meta:
+        model = User
+        fields = ('is_active',)
+

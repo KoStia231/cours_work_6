@@ -1,18 +1,51 @@
 {% extends 'base.html' %}
 {% load my_media %}
 {% block content %}
-
-<div class="">
-{% for i in test_var %}
-    {{ i }}
-    <div class="">
-
+    <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+        <h1 class="display-4">Сервис email рассылки</h1>
     </div>
-    {{ i.message }}
-    {{ i.clients.email }}
+    <div class="row ">
+        <div class="col-4">
+            <div class="card text-center">
+                <p class="lead">Активно рассылок</p>
+                <span class="badge bg-primary m-4">{{ count_mailing_r }}</span>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="card text-center">
+                <p class="lead">Рассылок всего</p>
+                <span class="badge bg-primary m-4">{{ count_mailing }}</span>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="card text-center">
+                <p class="lead">Клиентов рассылок</p>
+                <span class="badge bg-primary m-4">{{ clients }}</span>
+            </div>
+        </div>
+    </div>
+    <div class="mt-5">
+        <div class="row">
+            {% for blog in blog_list %}
+                <div class="col-4">
+                    <div class="card h-100">
+                        <img src="{{ blog.image|mymedia }}" class="card-img-top" alt="{{ blog.title }}">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ blog.title }}</h5>
+                            <p class="card-text">{{ blog.contents|truncatechars:100 }}</p>
+                        </div>
+                        <div class="card-footer text-center">
+                            <a href="{% url 'blog:detail' blog.slug %}"
+                               class="btn btn-lg btn-block btn-outline-primary">Открыть
+                                статью</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
 
+        </div>
+    </div>
 
-{% endfor %}
-</div>
 
 {% endblock %}
+

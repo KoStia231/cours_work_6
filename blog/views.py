@@ -86,4 +86,3 @@ class BlogDeleteView(MyLoginRequiredMixin, DeleteView):
         if obj.autor != self.request.user:
             raise Http404("У вас нет прав на удаление этой статьи .")
         return obj
-# Create your views here.
